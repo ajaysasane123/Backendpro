@@ -1,5 +1,5 @@
 import con from './utils/db.js';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 
 const fixPasswords = async () => {
   con.query('SELECT id, password FROM employee', async (err, result) => {
@@ -11,7 +11,6 @@ const fixPasswords = async () => {
     for (const emp of result) {
       const pass = emp.password;
 
-      
       if (pass.startsWith('$2b$')) {
         console.log(`Already hashed: ID ${emp.id}`);
         continue;

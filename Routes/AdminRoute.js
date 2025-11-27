@@ -1,12 +1,11 @@
 import express from 'express';
 import con from '../utils/db.js';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import multer from 'multer';
 import path from 'path';
 
 const router = express.Router();
-
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => cb(null, 'public/images'),
@@ -14,7 +13,6 @@ const storage = multer.diskStorage({
     cb(null, Date.now() + path.extname(file.originalname)),
 });
 const upload = multer({ storage });
-
 
 router.post('/adminlogin', (req, res) => {
   const sql = 'SELECT * FROM admin WHERE email=?';
@@ -38,12 +36,10 @@ router.post('/adminlogin', (req, res) => {
       res.cookie('token', token, { httpOnly: true });
       res.json({ loginStatus: true });
 
-     
       console.log(`Admin logged in: ${admin.name} (ID: ${admin.id})`);
     });
   });
 });
-
 
 router.get('/dashboard/summary', (req, res) => {
   const summary = {
@@ -70,7 +66,6 @@ router.get('/dashboard/summary', (req, res) => {
     );
   });
 });
-
 
 router.get('/admin_profile', (req, res) => {
   const token = req.cookies.token;
@@ -102,7 +97,6 @@ router.put('/update-admin', (req, res) => {
 
   const updateValues = [fullname, email, image, admin_id];
 
- 
   if (password && password !== '') {
     const hashedPassword = bcrypt.hashSync(password, 10);
     updateSql = `
@@ -166,7 +160,6 @@ router.put('/update_admin_profile', upload.single('image'), (req, res) => {
   });
 });
 
-
 router.get('/admin_records', (req, res) => {
   con.query('SELECT id,email FROM admin', (err, result) =>
     res.json({ Status: !err, Result: result || [] })
@@ -188,7 +181,6 @@ router.get('/salary_count', (req, res) => {
     (err, result) => res.json({ Status: !err, Result: result || [] })
   );
 });
-
 
 router.get('/employee', (req, res) => {
   const sql = `
@@ -271,7 +263,6 @@ router.delete('/delete_employee/:id', (req, res) => {
   );
 });
 
-
 router.get('/category', (req, res) => {
   con.query('SELECT * FROM category', (err, result) =>
     res.json({ Status: !err, Result: result || [] })
@@ -290,16 +281,10 @@ router.delete('/delete_category/:id', (req, res) => {
   );
 });
 
-
-
 router.get('/logout', (req, res) => {
   res.clearCookie('token');
   res.json({ Status: true });
 });
-
-
-
-
 
 router.get('/salary_history', (req, res) => {
   const sql = `
