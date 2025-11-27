@@ -1,13 +1,14 @@
 import mysql from 'mysql2';
 import dotenv from 'dotenv';
+
 dotenv.config();
 
 const con = mysql.createConnection({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASS,   // ✅ YAHI FINAL FIX HAI
-  database: process.env.DB_NAME,
-  port: process.env.DB_PORT || 3306
+  host: process.env.MYSQL_HOST,
+  user: process.env.MYSQLUSER,
+  password: process.env.MYSQL_ROOT_PASSWORD,
+  database: process.env.MYSQL_DATABASE,
+  port: process.env.MYSQLPORT,
 });
 
 con.connect((err) => {
