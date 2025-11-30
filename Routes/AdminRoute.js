@@ -282,8 +282,25 @@ router.delete('/delete_category/:id', (req, res) => {
 });
 
 router.get('/logout', (req, res) => {
+  const token = req.cookies.token;
+
+  if (token) {
+    jwt.verify(token, 'jwt_secret_key', (err, decoded) => {
+      if (!err) {
+        console.log(
+          `Employee logged out: ${decoded.email} (ID: ${decoded.id})`
+        );
+      } else {
+        f;
+        console.log('Employee logged out (invalid token)');
+      }
+    });
+  } else {
+    console.log('Employee logged out (no token)');
+  }
+
   res.clearCookie('token');
-  res.json({ Status: true });
+  return res.json({ Status: true });
 });
 
 router.get('/salary_history', (req, res) => {

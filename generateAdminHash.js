@@ -10,3 +10,5 @@ bcrypt.hash(password, saltRounds, (err, hash) => {
   }
   console.log('New hashed password:', hash);
 });
+
+

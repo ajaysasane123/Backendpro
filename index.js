@@ -1,4 +1,3 @@
-
 import express from 'express';
 import cors from 'cors';
 import { EmployeeRouter } from './Routes/EmployeeRoute.js';
@@ -17,12 +16,13 @@ const app = express();
 
 app.use(cors({
   origin: [
-    'http://localhost:5173',                               // local frontend
-    'https://employee-management-projectpro.netlify.app'  // production frontend
+    'http://localhost:5173',
+    'https://magical-fenglisu-fcf879.netlify.app'
   ],
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  methods: ['GET','POST','PUT','DELETE'],
   credentials: true
 }));
+
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
